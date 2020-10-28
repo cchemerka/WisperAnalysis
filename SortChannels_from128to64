@@ -1,0 +1,30 @@
+%% Sort and Cutout Channels from 128 to 64 
+    
+ for rr=1:numel(EEG_ses.chanlocs)
+     
+     L = EEG_ses.chanlocs(rr).labels;
+     
+     recorded(rr) = sum(strcmpi(L,Channels));
+     
+     disp([L,'    ',num2str(recorded(rr))])
+     
+ end
+ 
+ Chan64 = Channels(find(recorded));
+ Coord64 = Coord(find(recorded),:);
+ 
+ idx = zeros(numel(EEG_ses.chanlocs.labels),1);
+ 
+ clear ii
+ 
+ for ii = 1 : numel(EEG_ses.chanlocs.labels)
+     idx(ii) =  find(strcmp(EEG_ses.chanlocs(ii).labels), Chan64));
+ end
+ 
+ CoordSorted = zeros(size(Coord64));
+ ChanSorted = zeros(size(Chan64),1);
+ 
+ for ii = 1 : numel(idx)
+     locssort = Coord64(idx(ii),:);
+     namesort = Chan64(idx(ii):);
+     CoordSorted(ii,:) = locssort;
